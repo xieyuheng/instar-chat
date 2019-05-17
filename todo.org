@@ -1,10 +1,11 @@
-- express -- auth example -- one time demo, no db
-- switch to ts
 - learn API of socket.io
-- classes
-  - user
-  - group
+  - how to send objects between frontend and backend ?
+- classes:
+  - `user_t`
+  - `group_t`
+- express -- auth example -- one time demo, no db
 - change jquery to react
+- switch to ts
 * Requirements
 - Minimal required packages
   - Create-React-App
