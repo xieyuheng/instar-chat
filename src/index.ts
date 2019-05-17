@@ -7,10 +7,6 @@ let app = express ()
 let server = http.createServer (app)
 let io = socket_io (server)
 
-app.get ("/", (req: Request, res: Response) => {
-  res.sendFile (__dirname + "/index.html")
-})
-
 io.on ("connection", (socket) => {
   console.log ("a user connected")
   socket.on ("disconnect", () => {

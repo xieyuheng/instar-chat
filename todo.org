@@ -1,3 +1,4 @@
+- use class components
 - change jquery to react
 - learn API of socket.io
   - how to send objects between frontend and backend ?
@@ -6,6 +7,13 @@
   - `group_t`
 - express -- auth example -- one time demo, no db
 - a hyperapp version -- instead of react
+* Homework
+- Broadcast a message to connected users when someone connects or disconnects.
+- Add support for nicknames.
+- Don't send the same message to the user that sent it himself. Instead, append the message directly as soon as he presses enter.
+- Add "{user} is typing" functionality.
+- Show who's online.
+- Add private messaging.
 * Requirements
 - Minimal required packages
   - Create-React-App
@@ -24,7 +32,7 @@
   and a flex layout.
 * Functional Requirements
 - Register a new user and login as such
-- You need to build a “real” chat app, which means multiple users can open different tab in browser and chat in real time, which means you need to write backend code too.
+- You need to build a "real" chat app, which means multiple users can open different tab in browser and chat in real time, which means you need to write backend code too.
 - Profile (not shown in mockup)
   - Your own user
 - Groups
@@ -33,14 +41,14 @@
   - Name of the group can be changed
 - Users
   - Show a list of users
-  - Users are contained within a group. So when adding a user to a group it means it doesn’t get automatically added to all other groups. Removing a group removes all the users within the group.
+  - Users are contained within a group. So when adding a user to a group it means it doesn't get automatically added to all other groups. Removing a group removes all the users within the group.
   - Users can be added and removed
   - Username can be changed
 - Messages
   - Show the messages which were posted within a group
-  - Messages can be added by inputting a message in a input box and clicking “Send”
+  - Messages can be added by inputting a message in a input box and clicking "Send"
 - Unittest
-  - Write a React unittest that verifies that a message is added to the chatroom after inputting a message and clicking “Send”
+  - Write a React unittest that verifies that a message is added to the chatroom after inputting a message and clicking "Send"
 * note
 - Users and Messages are stored within a group
   so when opening a different group
