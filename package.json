@@ -1,0 +1,33 @@
+{
+  "name": "instar2",
+  "version": "0.0.1",
+  "license": "GPL-3.0-or-later",
+  "author": "Xie Yuheng",
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch",
+    "api-local": "typedoc src --out docs/api --mode modules --readme none",
+    "api-up": "surge docs/api api.instar2.surge.sh",
+    "api": "npm run api-local; npm run api-up",
+    "up": "git commit -m 'up'; npm run build; npm run api; npm version patch; git push; npm publish"
+  },
+  "devDependencies": {
+    "ava": "^1.4.1",
+    "parcel-bundler": "^1.12.3",
+    "surge": "^0.20.5",
+    "typedoc": "^0.14.2",
+    "typescript": "^3.4.5"
+  },
+  "dependencies": {
+    "@types/express": "^4.16.1",
+    "@types/lodash": "^4.14.129",
+    "@types/node": "^12.0.2",
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "express": "^4.16.4",
+    "lodash": "^4.17.11",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "socket.io": "^2.2.0"
+  }
+}
