@@ -12,6 +12,12 @@
     "up": "git commit -m 'up'; npm run build; npm run api; npm version patch; git push; npm publish"
   },
   "devDependencies": {
+    "@types/express": "^4.16.1",
+    "@types/lodash": "^4.14.129",
+    "@types/node": "^12.0.2",
+    "@types/react": "^16.8.17",
+    "@types/react-dom": "^16.8.4",
+    "@types/socket.io": "^2.1.2",
     "ava": "^1.4.1",
     "parcel-bundler": "^1.12.3",
     "surge": "^0.20.5",
@@ -19,12 +25,7 @@
     "typescript": "^3.4.5"
   },
   "dependencies": {
-    "@types/express": "^4.16.1",
-    "@types/lodash": "^4.14.129",
-    "@types/node": "^12.0.2",
-    "@types/react": "^16.8.17",
-    "@types/react-dom": "^16.8.4",
-    "express": "^4.16.4",
+    "express": "^4.17.0",
     "lodash": "^4.17.11",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

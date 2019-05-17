@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    // "target": "es6",
     // "module": "umd",
     "module": "commonjs",
     // "moduleResolution": "node",
@@ -9,7 +8,7 @@
     "declaration": true,
     "esModuleInterop": true,
     "strict": true,
-    "outDir": "dist",
+    "outDir": "lib",
     "baseUrl": ".",
     "paths": {
       "*": [
