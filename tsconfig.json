@@ -9,6 +9,11 @@
     "esModuleInterop": true,
     "strict": true,
     "outDir": "lib",
+    "jsx": "react",
+    "lib": [
+      "dom",
+      "es6"
+    ],
     "baseUrl": ".",
     "paths": {
       "*": [

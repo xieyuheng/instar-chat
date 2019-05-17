@@ -1,9 +1,13 @@
-let express = require ("express")
-let app = express ()
-let http = require ("http") .createServer (app)
-let io = require ("socket.io") (http)
+import express from "express"
+import { Request, Response } from "express"
+import http from "http"
+import socket_io from "socket.io"
 
-app.get ("/", (req, res) => {
+let app = express ()
+let server = http.createServer (app)
+let io = socket_io (server)
+
+app.get ("/", (req: Request, res: Response) => {
   res.sendFile (__dirname + "/index.html")
 })
 
@@ -21,6 +25,6 @@ io.on ("connection", (socket) => {
   })
 })
 
-http.listen (3000, () => {
+server.listen (3000, () => {
   console.log ("[info] listen on port 3000")
 })

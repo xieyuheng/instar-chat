@@ -1,11 +1,11 @@
+- change jquery to react
 - learn API of socket.io
   - how to send objects between frontend and backend ?
 - classes:
   - `user_t`
   - `group_t`
 - express -- auth example -- one time demo, no db
-- change jquery to react
-- switch to ts
+- a hyperapp version -- instead of react
 * Requirements
 - Minimal required packages
   - Create-React-App
