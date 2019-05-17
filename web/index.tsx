@@ -3,7 +3,6 @@ import * as ReactDOM from "react-dom"
 import { useState } from "react"
 // import io from "socket.io-client/dist/socket.io"
 import io from "socket.io-client"
-import $ from "jquery"
 
 import "./index.css"
 
