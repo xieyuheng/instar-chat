@@ -108,7 +108,12 @@ class InstarChat extends React.Component {
 
   componentDidMount () {
     socket.on ("login", (the) => {
-      this.setState ({ username: the.username })
+      for (let groupname of Array.from (the.groups)) {
+        this.appendTextTo ("", groupname)
+      }
+      this.setState ({
+        username: the.username,
+      })
     })
     socket.on ("info", (info) => {
       this.appendText ("[info] " + info + "\n")
@@ -117,6 +122,9 @@ class InstarChat extends React.Component {
       this.setState ({
         current_groupname: groupname
       })
+      // the following empty appending
+      //   is for refreshing `MessageBoard` after `/join`
+      this.appendTextTo ("", groupname)
     })
     socket.on ("message", (the) => {
       let text = `${the.username}: ${the.message}\n`

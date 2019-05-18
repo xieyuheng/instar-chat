@@ -1,6 +1,5 @@
 - `GroupBoard` display & bottom
 - fix the use of `as`
-- refresh `MessageBoard` after `/join`
 - improve css
 - scroll to bottom -- by ref
   https://stackoverflow.com/questions/9170670/how-do-i-set-textarea-scroll-bar-to-bottom-as-a-default
