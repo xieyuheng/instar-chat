@@ -1,4 +1,3 @@
-- use class components
 - learn API of socket.io
   - how to send objects between frontend and backend ?
 - classes:
