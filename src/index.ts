@@ -39,7 +39,7 @@ let io = sio (server)
 io.on ("connection", (socket) => {
   console.log ("[instar-chat] a user connected")
 
-  socket.emit ("info", "Welcome ^-^/")
+  socket.emit ("info", "welcome ^-^/")
   socket.emit ("info", "commands:")
   socket.emit ("info", "  /register <name> <password>")
   socket.emit ("info", "  /login <name> <password>")
@@ -102,12 +102,10 @@ function register (
   password: string,
 ) {
   if (user_map.has (username)) {
-    console.log ("[instar-chat] registration fail")
-    socket.emit ("info", `username: ${username} is used. Please try another one.`)
+    socket.emit ("info", `username: ${username} is used. please try another one.`)
   } else {
-    console.log (`[instar-chat] registration success, name: ${username}`)
     user_map.set (username, password)
-    socket.emit ("info", `Registration finished. Welcome ${username}.`)
+    socket.emit ("info", `successful registration, username ${username}.`)
     login (socket, username, password)
   }
 }

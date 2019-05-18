@@ -1,4 +1,3 @@
-- use textarea for MessageBoard -- insead of html lists
 - class user_t
 - class group_t
 - class message_t

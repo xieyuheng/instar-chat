@@ -31,10 +31,10 @@ class MessageBoard extends React.Component {
 
   render () {
     let messageList = this.state.messages.map ((msg, index) => {
-      return <li key={index.toString ()}> {msg} </li>
+      return <p key={index.toString ()}> {msg} </p>
     })
 
-    return <ul id="message-board">{messageList}</ul>
+    return <pre id="message-board">{messageList}</pre>
   }
 }
 
