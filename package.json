@@ -6,7 +6,7 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "serve": "node lib/index.js",
+    "server": "node lib/index.js",
     "web": "parcel web/index.html"
   },
   "devDependencies": {

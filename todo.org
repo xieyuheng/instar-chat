@@ -1,5 +1,9 @@
-- express -- auth example (no db)
+- simple auth
+  - without http session
+  - without db
 - default guest nick
+- naked password first
+- use crypto to avoid storing naked passwords
 - class user_t
 - class message_t
 - socket.io namespace and room -- for group_t

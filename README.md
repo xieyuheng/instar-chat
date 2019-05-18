@@ -11,7 +11,7 @@ A simple chat app
 
 - backend
   - code at `/src`
-  - `npm run serve`
+  - `npm run server`
 
 - frontend
   - code at `/web`
