@@ -6,10 +6,8 @@
   "scripts": {
     "build": "tsc",
     "watch": "tsc --watch",
-    "api-local": "typedoc src --out docs/api --mode modules --readme none",
-    "api-up": "surge docs/api api.instar2.surge.sh",
-    "api": "npm run api-local; npm run api-up",
-    "up": "git commit -m 'up'; npm run build; npm run api; npm version patch; git push; npm publish"
+    "serve": "node lib/index.js",
+    "web": "parcel web/index.html"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
