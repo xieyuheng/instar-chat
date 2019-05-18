@@ -1,7 +1,7 @@
-- socket.io namespace and room -- for group_t
 - express -- auth example (no db)
-- class message_t
 - class user_t
+- class message_t
+- socket.io namespace and room -- for group_t
 - class group_t
 - use redux
 * Homework

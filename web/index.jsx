@@ -2,8 +2,6 @@ import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { useState } from "react"
 
-import nanoid from "nanoid"
-
 import io from "socket.io-client"
 
 import "./index.css"
