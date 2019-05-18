@@ -13,12 +13,14 @@ class MessageBoard extends React.Component {
   }
 
   render () {
-    return <textarea
-             id="message-board"
-             spellCheck="false"
-             readOnly={true}
-             value={this.props.text}>
-    </textarea>
+    return <>
+      <textarea
+        id="message-board"
+        spellCheck="false"
+        readOnly={true}
+        value={this.props.text}>
+      </textarea>
+    </>
   }
 }
 

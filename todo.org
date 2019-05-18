@@ -1,13 +1,15 @@
-- fix GroupBoard
+- `GroupBoard` display & bottom
+- fix the use of `as`
+- refresh `MessageBoard` after `/join`
+- improve css
 - scroll to bottom -- by ref
   https://stackoverflow.com/questions/9170670/how-do-i-set-textarea-scroll-bar-to-bottom-as-a-default
   https://www.pubnub.com/tutorials/react/chat-message-history-and-infinite-scroll/#scroll-bottom
-- simple auth
-  - without http session
-  - without db
-- use crypto to avoid storing naked passwords
 - use redux
 - deploy to new.sh
+- [maybe] use crypto to avoid storing naked passwords
+- [maybe] use session
+- [maybe] use db
 * Homework
 - Broadcast a message to connected users when someone connects or disconnects.
 - Add support for nicknames.
