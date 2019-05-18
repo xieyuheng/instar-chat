@@ -1,11 +1,11 @@
-- class user_t
-- class group_t
-- class message_t
-- socket.io namespace and room -- for group_t
+- current group -- multi MessageBoard
+- message with groupname
+- socket.io room -- for group_t
+- scroll to bottom -- by ref
+  https://stackoverflow.com/questions/9170670/how-do-i-set-textarea-scroll-bar-to-bottom-as-a-default
 - simple auth
   - without http session
   - without db
-- naked password first
 - use crypto to avoid storing naked passwords
 - use redux
 - deploy to new.sh

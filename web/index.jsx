@@ -12,29 +12,30 @@ class MessageBoard extends React.Component {
     super (props)
 
     this.state = {
-      messages: []
+      text: ""
     }
   }
 
   componentDidMount () {
     socket.on ("info", (msg) => {
       this.setState ((state) => ({
-        messages: state.messages.concat ([ "[info] " + msg ])
+        text: state.text + "[info] " + msg + "\n"
       }))
     })
     socket.on ("message", (msg) => {
       this.setState ((state) => ({
-        messages: state.messages.concat ([ msg ])
+        text: state.text + msg + "\n"
       }))
     })
   }
 
   render () {
-    let messageList = this.state.messages.map ((msg, index) => {
-      return <p key={index.toString ()}> {msg} </p>
-    })
-
-    return <pre id="message-board">{messageList}</pre>
+    return <textarea
+             id="message-board"
+             spellCheck="false"
+             readOnly={true}
+             value={this.state.text}>
+    </textarea>
   }
 }
 
@@ -76,20 +77,26 @@ class InputForm extends React.Component {
   }
 
   render () {
-    return <form onSubmit={this.submitInput}>
+    return <form id="input-form"
+                 onSubmit={this.submitInput}>
       <input type="text"
              autoComplete="off"
              value={this.state.value}
              onChange={this.inputChange} />
-      <button>SEND</button>
+      <button>^</button>
     </form>
   }
 }
 
 class GroupBoard extends React.Component {
+  constructor (props) {
+    super (props)
+  }
+
   render () {
     return <div id="group-board">
-
+      {this.props.username !== null &&
+       <p>{this.props.username}</p>}
     </div>
   }
 }
@@ -104,19 +111,19 @@ class InstarChat extends React.Component {
   }
 
   componentDidMount () {
-    socket.on ("login", (username) => {
-      this.setState ({ username: username })
+    socket.on ("login", (the) => {
+      this.setState ({ username: the.username })
     })
   }
 
   render () {
     let className = "";
-    if (this.state.username) {
+    if (this.state.username !== null) {
       className += " login";
     }
     return <div id="instar-chat"
                 className={className}>
-      <GroupBoard />
+      <GroupBoard username={this.state.username} />
       <MessageBoard />
       <InputForm />
     </div>

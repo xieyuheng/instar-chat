@@ -1,8 +1,28 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
+
 body { font: Monaco; }
-form { position: fixed; bottom: 0; width: 100%; }
-form input { padding: 10px; width: 90%; margin-right: .5%; }
-form button { width: 9%; padding: 10px; }
+
+#input-form { bottom: 0; position: sticky; }
+#input-form input { padding: 0.5em; width: 92%; }
+#input-form button { padding: 0.5em; width: 6%; }
+
+#message-board {
+  font-size: 1em;
+  border: 0px;
+  border-left: 1px solid;
+  width: 97%;
+  min-height: 500px;
+  max-height: 550px;
+  outline: none;
+  resize: none;
+  overflow: auto;
+}
+
+button {
+  font-size: 1em;
+  border: 0px;
+  background-color: #eee;
+}
 
 #message-board {
   margin-left: 0%;
@@ -14,18 +34,7 @@ form button { width: 9%; padding: 10px; }
   transition: width .5s ease .2s;
 }
 
-.login #message-board {
-  margin-left: 18%;
-  transition: margin-left .5s ease .2s;
-}
-
-.login #group-board {
-  width: 18%;
-  transition: width .5s ease .2s;
-}
-
 #group-board {
-  position: fixed;
   left: 0;
   top: 0;
   bottom: 0;
@@ -33,4 +42,20 @@ form button { width: 9%; padding: 10px; }
   border: 0px;
   font-size: 0.875em;
   text-align: center;
+}
+
+.login #group-board {
+  width: 18%;
+  transition: width .5s ease .2s;
+}
+
+.login #message-board {
+  margin-left: 18%;
+  transition: margin-left .5s ease .2s;
+  width: 71%;
+}
+
+.login #input-form {
+  margin-left: 18%;
+  transition: margin-left .5s ease .2s;
 }
