@@ -6,19 +6,6 @@ import nanoid from "nanoid"
 
 const PORT = 3000
 
-// class message_t {
-//   name: string
-//   value: string
-
-//   constructor (the: {
-//     name: string,
-//     value: string,
-//   }) {
-//     this.name = the.name
-//     this.value = the.value
-//   }
-// }
-
 let user_map: Map <string, {
   password: string,
   groups: Set <string>,
@@ -158,8 +145,8 @@ function login (
         groups: the.groups,
       })
       socket.emit ("info", "successful login")
-      socket.on ("message", (msg) => {
-        io.emit ("message", msg)
+      socket.on ("message", the => {
+        io.to (the.groupname) .emit ("message", the)
       })
     } else {
       socket.emit ("info", "login fail")
@@ -181,6 +168,7 @@ function join (
     groups: Set <string>
   }
   the.groups.add (groupname)
+  socket.emit ("join", groupname)
 }
 
 function leave (

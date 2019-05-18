@@ -1,8 +1,7 @@
-- current group -- multi MessageBoard
-- message with groupname
-- socket.io room -- for group_t
+- fix GroupBoard
 - scroll to bottom -- by ref
   https://stackoverflow.com/questions/9170670/how-do-i-set-textarea-scroll-bar-to-bottom-as-a-default
+  https://www.pubnub.com/tutorials/react/chat-message-history-and-infinite-scroll/#scroll-bottom
 - simple auth
   - without http session
   - without db

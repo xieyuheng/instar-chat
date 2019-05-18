@@ -10,23 +10,6 @@ let socket = io ("http://localhost:3000/")
 class MessageBoard extends React.Component {
   constructor (props) {
     super (props)
-
-    this.state = {
-      text: ""
-    }
-  }
-
-  componentDidMount () {
-    socket.on ("info", (msg) => {
-      this.setState ((state) => ({
-        text: state.text + "[info] " + msg + "\n"
-      }))
-    })
-    socket.on ("message", (msg) => {
-      this.setState ((state) => ({
-        text: state.text + msg + "\n"
-      }))
-    })
   }
 
   render () {
@@ -34,7 +17,7 @@ class MessageBoard extends React.Component {
              id="message-board"
              spellCheck="false"
              readOnly={true}
-             value={this.state.text}>
+             value={this.props.text}>
     </textarea>
   }
 }
@@ -71,7 +54,13 @@ class InputForm extends React.Component {
           args: words.slice (1),
         })
       } else {
-        socket.emit ("message", value)
+        if (this.props.groupname !== null) {
+          socket.emit ("message", {
+            username: this.props.username,
+            groupname: this.props.groupname,
+            message: value,
+          })
+        }
       }
     }
   }
@@ -97,6 +86,8 @@ class GroupBoard extends React.Component {
     return <div id="group-board">
       {this.props.username !== null &&
        <p>{this.props.username}</p>}
+      {this.props.groupname !== null &&
+       <p>{this.props.groupname}</p>}
     </div>
   }
 }
@@ -106,7 +97,10 @@ class InstarChat extends React.Component {
     super (props)
 
     this.state = {
-      username: null
+      username: null,
+      main_text: "",
+      current_groupname: null,
+      text_map: new Map (),
     }
   }
 
@@ -114,6 +108,48 @@ class InstarChat extends React.Component {
     socket.on ("login", (the) => {
       this.setState ({ username: the.username })
     })
+    socket.on ("info", (info) => {
+      this.appendText ("[info] " + info + "\n")
+    })
+    socket.on ("join", (groupname) => {
+      this.setState ({
+        current_groupname: groupname
+      })
+    })
+    socket.on ("message", (the) => {
+      let text = `${the.username}: ${the.message}\n`
+      this.appendTextTo (text, the.groupname)
+    })
+  }
+
+  appendText = (text) => {
+    if (this.state.current_groupname === null) {
+      this.setState ((state) => ({
+        main_text: state.main_text + text
+      }))
+    } else {
+      this.appendTextTo (text, this.state.current_groupname)
+    }
+  }
+
+  appendTextTo = (text, groupname) => {
+    let old_text = this.state.text_map.get (groupname)
+    this.setState ((state) => ({
+      text_map: state.text_map.set (
+        groupname,
+        old_text === undefined ? text : old_text + text,
+      )
+    }))
+  }
+
+  getText = () => {
+    if (this.state.current_groupname === null) {
+      return this.state.main_text
+    } else {
+      return this.state.text_map.get (
+        this.state.current_groupname
+      )
+    }
   }
 
   render () {
@@ -123,9 +159,14 @@ class InstarChat extends React.Component {
     }
     return <div id="instar-chat"
                 className={className}>
-      <GroupBoard username={this.state.username} />
-      <MessageBoard />
-      <InputForm />
+      <GroupBoard
+        username={this.state.username}
+        groupname={this.state.current_groupname} />
+      <MessageBoard
+        text={this.getText ()} />
+      <InputForm
+        username={this.state.username}
+        groupname={this.state.current_groupname} />
     </div>
   }
 }
