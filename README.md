@@ -1,5 +1,9 @@
 # Chat App Practice
 
+A simple chat app
+- IRC-like user experience
+- chat history
+
 ## Run
 
 - prepare

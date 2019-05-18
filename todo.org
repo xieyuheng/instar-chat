@@ -1,4 +1,5 @@
 - express -- auth example (no db)
+- default guest nick
 - class user_t
 - class message_t
 - socket.io namespace and room -- for group_t
