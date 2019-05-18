@@ -2,21 +2,16 @@
 
 ## Run
 
-```
-npm instll
-```
+- prepare
+  - `npm install; npm run build`
 
-### backend
+- backend
+  - code at `/src`
+  - `npm run serve`
 
-```
-npm run server
-```
-
-### frontend
-
-```
-npm run web
-```
+- frontend
+  - code at `/web`
+  - `npm run web`
 
 ## Contributing
 
