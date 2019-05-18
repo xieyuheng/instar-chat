@@ -182,10 +182,10 @@ class InstarChat extends React.Component {
   }
 
   joinGroup = (groupname) => {
-    console.log ("joinGroup:", groupname)
     this.setState ({
       current_groupname: groupname
     })
+    // NOTE
     // the following empty appending
     //   is for refreshing `MessageBoard` after `/join`
     this.appendTextTo ("", groupname)
@@ -202,10 +202,8 @@ class InstarChat extends React.Component {
         username={this.state.username}
         text_map={this.state.text_map}
         groupname={this.state.current_groupname}
-        onClick={(event) => {
-          console.log ("kkk:", event.target.value)
-          this.joinGroup (event.target.value)
-        }} />
+        onClick={(event) => this.joinGroup (event.target.value)}
+      />
       <MessageBoard
         text={this.getText ()} />
       <InputForm
