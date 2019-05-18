@@ -1,4 +1,3 @@
-- `GroupBoard` display & bottom
 - fix the use of `as`
 - improve css
 - scroll to bottom -- by ref

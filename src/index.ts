@@ -8,7 +8,7 @@ const PORT = 3000
 
 let user_map: Map <string, {
   password: string,
-  groups: Set <string>,
+  groupname_set: Set <string>,
 }> = new Map ()
 
 let socket_map: Map <string, string> = new Map ()
@@ -124,7 +124,7 @@ function register (
     socket.emit ("info", `username: ${username} is used. please try another one`)
   } else {
     user_map.set (username, {
-      password, groups: new Set (),
+      password, groupname_set: new Set (),
     })
     socket.emit ("info", `successful registration, username: ${username}`)
     login (socket, username, password)
@@ -140,11 +140,15 @@ function login (
   if (the !== undefined) {
     if (password === the.password) {
       socket_map.set (socket.id, username)
-      socket.emit ("login", {
-        username,
-        groups: the.groups,
-      })
+      // NOTE
+      // `the.groupname_set` is converted to `Array`
+      // because socket.io can not serialize `Set`
+      let groupname_array = Array.from (the.groupname_set)
+      socket.emit ("login", { username, groupname_array })
       socket.emit ("info", "successful login")
+      for (let groupname of groupname_array) {
+        join (socket, groupname)
+      }
       socket.on ("message", the => {
         io.to (the.groupname) .emit ("message", the)
       })
@@ -165,9 +169,9 @@ function join (
   socket.join (groupname)
   let username = socket_map.get (socket.id) as string
   let the = user_map.get (username) as {
-    groups: Set <string>
+    groupname_set: Set <string>
   }
-  the.groups.add (groupname)
+  the.groupname_set.add (groupname)
   socket.emit ("join", groupname)
 }
 
@@ -178,9 +182,10 @@ function leave (
   socket.leave (groupname)
   let username = socket_map.get (socket.id) as string
   let the = user_map.get (username) as {
-    groups: Set <string>
+    groupname_set: Set <string>
   }
-  the.groups.delete (groupname)
+  the.groupname_set.delete (groupname)
+  socket.emit ("leave", groupname)
 }
 
 function info (

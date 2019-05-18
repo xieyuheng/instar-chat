@@ -85,11 +85,22 @@ class GroupBoard extends React.Component {
   }
 
   render () {
+    let groupButtons = Array.from (
+      this.props.text_map.keys ()
+    ) .map (groupname => {
+      return <p key={groupname}>
+        <button
+          value={groupname}
+          onClick={this.props.onClick}>
+          {groupname}
+        </button>
+      </p>
+    })
+
     return <div id="group-board">
       {this.props.username !== null &&
        <p>{this.props.username}</p>}
-      {this.props.groupname !== null &&
-       <p>{this.props.groupname}</p>}
+      {groupButtons}
     </div>
   }
 }
@@ -108,24 +119,32 @@ class InstarChat extends React.Component {
 
   componentDidMount () {
     socket.on ("login", (the) => {
-      for (let groupname of Array.from (the.groups)) {
+      for (let groupname of the.groupname_array) {
+        // TODO
+        // use an init `appendTextTo` tp support group history
         this.appendTextTo ("", groupname)
       }
       this.setState ({
         username: the.username,
       })
     })
+
     socket.on ("info", (info) => {
       this.appendText ("[info] " + info + "\n")
     })
+
     socket.on ("join", (groupname) => {
-      this.setState ({
-        current_groupname: groupname
-      })
-      // the following empty appending
-      //   is for refreshing `MessageBoard` after `/join`
-      this.appendTextTo ("", groupname)
+      this.joinGroup (groupname)
     })
+
+    socket.on ("leave", (groupname) => {
+      this.appendTextTo ("[leave]", groupname)
+      this.state.text_map.delete (groupname)
+      this.setState ((state) => ({
+        text_map: state.text_map
+      }))
+    })
+
     socket.on ("message", (the) => {
       let text = `${the.username}: ${the.message}\n`
       this.appendTextTo (text, the.groupname)
@@ -162,6 +181,16 @@ class InstarChat extends React.Component {
     }
   }
 
+  joinGroup = (groupname) => {
+    console.log ("joinGroup:", groupname)
+    this.setState ({
+      current_groupname: groupname
+    })
+    // the following empty appending
+    //   is for refreshing `MessageBoard` after `/join`
+    this.appendTextTo ("", groupname)
+  }
+
   render () {
     let className = "";
     if (this.state.username !== null) {
@@ -171,7 +200,12 @@ class InstarChat extends React.Component {
                 className={className}>
       <GroupBoard
         username={this.state.username}
-        groupname={this.state.current_groupname} />
+        text_map={this.state.text_map}
+        groupname={this.state.current_groupname}
+        onClick={(event) => {
+          console.log ("kkk:", event.target.value)
+          this.joinGroup (event.target.value)
+        }} />
       <MessageBoard
         text={this.getText ()} />
       <InputForm
