@@ -17,6 +17,11 @@ class MessageBoard extends React.Component {
   }
 
   componentDidMount () {
+    socket.on ("info", (msg) => {
+      this.setState ((state) => ({
+        messages: state.messages.concat ([ "[info] " + msg ])
+      }))
+    })
     socket.on ("message", (msg) => {
       this.setState ((state) => ({
         messages: state.messages.concat ([ msg ])
@@ -29,7 +34,7 @@ class MessageBoard extends React.Component {
       return <li key={index.toString ()}> {msg} </li>
     })
 
-    return <ul id="messages">{messageList}</ul>
+    return <ul id="message-board">{messageList}</ul>
   }
 }
 
@@ -60,10 +65,6 @@ class InputForm extends React.Component {
     let words = value.split (" ") .filter (word => word.length > 0)
     if (words.length > 0) {
       if (words [0] .startsWith ("/")) {
-        console.log ({
-          command: words [0],
-          args: words.slice (1),
-        })
         socket.emit ("command", {
           command: words [0],
           args: words.slice (1),
@@ -85,16 +86,44 @@ class InputForm extends React.Component {
   }
 }
 
-class Root extends React.Component {
+class GroupBoard extends React.Component {
   render () {
-    return <>
+    return <div id="group-board">
+
+    </div>
+  }
+}
+
+class InstarChat extends React.Component {
+  constructor (props) {
+    super (props)
+
+    this.state = {
+      username: null
+    }
+  }
+
+  componentDidMount () {
+    socket.on ("login", (username) => {
+      this.setState ({ username: username })
+    })
+  }
+
+  render () {
+    let className = "";
+    if (this.state.username) {
+      className += " login";
+    }
+    return <div id="instar-chat"
+                className={className}>
+      <GroupBoard />
       <MessageBoard />
       <InputForm />
-    </>
+    </div>
   }
 }
 
 ReactDOM.render (
-  <Root />,
+  <InstarChat />,
   document.getElementById ("root"),
 )

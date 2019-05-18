@@ -3,6 +3,34 @@ body { font: Monaco; }
 form { position: fixed; bottom: 0; width: 100%; }
 form input { padding: 10px; width: 90%; margin-right: .5%; }
 form button { width: 9%; padding: 10px; }
-#messages { margin: 0; padding: 0; }
-#messages li { padding: 5px 10px; }
-#messages li:nth-child(odd) { background: #eef; }
+
+#message-board {
+  margin-left: 0%;
+  transition: margin-left .5s ease .2s;
+}
+
+#group-board {
+  width: 0%;
+  transition: width .5s ease .2s;
+}
+
+.login #message-board {
+  margin-left: 18%;
+  transition: margin-left .5s ease .2s;
+}
+
+.login #group-board {
+  width: 18%;
+  transition: width .5s ease .2s;
+}
+
+#group-board {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  overflow-y: auto;
+  border: 0px;
+  font-size: 0.875em;
+  text-align: center;
+}

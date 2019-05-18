@@ -4,50 +4,52 @@ import http from "http"
 import sio from "socket.io"
 import nanoid from "nanoid"
 
-class group_t {
-  name: string
+const PORT = 3000
 
-  constructor (the: {
-    name: string
-  }) {
-    this.name = the.name
-  }
-}
+// class group_t {
+//   name: string
 
-class message_t {
-  name: string
-  value: string
+//   constructor (the: {
+//     name: string
+//   }) {
+//     this.name = the.name
+//   }
+// }
 
-  constructor (the: {
-    name: string,
-    value: string,
-  }) {
-    this.name = the.name
-    this.value = the.value
-  }
-}
+// class message_t {
+//   name: string
+//   value: string
 
-let user_db: Map <string, string> = new Map ()
-let group_map: Map <string, group_t> = new Map ()
+//   constructor (the: {
+//     name: string,
+//     value: string,
+//   }) {
+//     this.name = the.name
+//     this.value = the.value
+//   }
+// }
+
+let user_map: Map <string, string> = new Map ()
+// let group_map: Map <string, group_t> = new Map ()
 
 let app = express ()
 let server = http.createServer (app)
 let io = sio (server)
 
 io.on ("connection", (socket) => {
-  console.log ("[info] a user connected")
+  console.log ("[instar-chat] a user connected")
 
-  socket.emit ("message", "[info] Welcome ^-^/")
-  socket.emit ("message", "[info] commands:")
-  socket.emit ("message", "[info]   /register <name> <password>")
-  socket.emit ("message", "[info]   /login <name> <password>")
-  socket.emit ("message", "[info]   /join <group>")
-  socket.emit ("message", "[info]   /leave")
+  socket.emit ("info", "Welcome ^-^/")
+  socket.emit ("info", "commands:")
+  socket.emit ("info", "  /register <name> <password>")
+  socket.emit ("info", "  /login <name> <password>")
+  socket.emit ("info", "  /join <group>")
+  socket.emit ("info", "  /leave")
 
   socket.on ("command", (the => executeCommand (socket, the)))
 
   socket.on ("disconnect", () => {
-    console.log ("[info] a user disconnected")
+    console.log ("[instar-chat] a user disconnected")
   })
 })
 
@@ -69,57 +71,69 @@ function executeCommand (
   if (command) {
     command (socket, the.args)
   } else {
-    socket.emit ("message", `[info] unknown command ${the.command}`)
+    socket.emit ("info", `unknown command ${the.command}`)
   }
 }
 
-server.listen (3000, () => {
-  console.log ("[info] listen on port 3000")
+server.listen (PORT, () => {
+  console.log ("[instar-chat] listen on port 3000")
 })
 
 command_map.set ("/register", (socket, args) => {
   if (args.length !== 2) {
-    socket.emit ("message", `[info] number of args must be 2.`)
+    socket.emit ("info", `number of args must be 2.`)
     return
   }
+
   register (socket, args [0], args [1])
 })
 
-function register (
-  socket: sio.Socket,
-  name: string,
-  password: string,
-) {
-  if (user_db.has (name)) {
-    console.log ("[info] registration fail")
-    socket.emit ("message", `[info] The name: ${name} is used. Please try another name.`)
-  } else {
-    console.log (`[info] registration success, name: ${name}`)
-    user_db.set (name, password)
-    socket.emit ("message", `[info] Registration finished. Welcome ${name}.`)
-    login (socket, name, password)
-  }
-}
-
 command_map.set ("/login", (socket, args) => {
   if (args.length !== 2) {
-    socket.emit ("message", `[info] number of args must be 2.`)
+    socket.emit ("info", `number of args must be 2.`)
     return
   }
   login (socket, args [0], args [1])
 })
 
-function login (
+function register (
   socket: sio.Socket,
-  name: string,
+  username: string,
   password: string,
 ) {
-  if (user_db.has (name)) {
-    socket.on ("message", (msg) => {
-      console.log ("[info] message:", msg)
-      io.emit ("message", msg)
-    })
+  if (user_map.has (username)) {
+    console.log ("[instar-chat] registration fail")
+    socket.emit ("info", `username: ${username} is used. Please try another one.`)
   } else {
-  
+    console.log (`[instar-chat] registration success, name: ${username}`)
+    user_map.set (username, password)
+    socket.emit ("info", `Registration finished. Welcome ${username}.`)
+    login (socket, username, password)
+  }
+}
+
+function login (
+  socket: sio.Socket,
+  username: string,
+  password: string,
+) {
+  if (user_map.has (username)) {
+    if (password === user_map.get (username)) {
+      socket.emit ("login", {
+        username,
+        groups: {
+          // TODO
+        },
+      })
+      socket.on ("message", (msg) => {
+        io.emit ("message", msg)
+      })
+    } else {
+      socket.emit ("info", "login fail.")
+      socket.emit ("info", "  wrong password.")
+    }
+  } else {
+    socket.emit ("info", "login fail.")
+    socket.emit ("info", `  username: ${username} does not exist.`)
   }
 }

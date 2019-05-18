@@ -1,3 +1,4 @@
+- use textarea for MessageBoard -- insead of html lists
 - class user_t
 - class group_t
 - class message_t
@@ -5,8 +6,6 @@
 - simple auth
   - without http session
   - without db
-- default guest nick
-- use textarea for MessageBoard -- insead of html lists
 - naked password first
 - use crypto to avoid storing naked passwords
 - use redux

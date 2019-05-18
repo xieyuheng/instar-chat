@@ -1,6 +1,5 @@
-# Chat App Practice
+# A simple chat app
 
-A simple chat app
 - IRC-like user experience
 - chat history
 
