@@ -1,14 +1,16 @@
+- class user_t
+- class group_t
+- class message_t
+- socket.io namespace and room -- for group_t
 - simple auth
   - without http session
   - without db
 - default guest nick
+- use textarea for MessageBoard -- insead of html lists
 - naked password first
 - use crypto to avoid storing naked passwords
-- class user_t
-- class message_t
-- socket.io namespace and room -- for group_t
-- class group_t
 - use redux
+- deploy to new.sh
 * Homework
 - Broadcast a message to connected users when someone connects or disconnects.
 - Add support for nicknames.

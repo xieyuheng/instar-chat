@@ -1,6 +1,5 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
-import { useState } from "react"
 
 import io from "socket.io-client"
 
@@ -13,17 +12,15 @@ class MessageBoard extends React.Component {
     super (props)
 
     this.state = {
-      messages: ["welcome ^-^/"]
+      messages: []
     }
   }
 
   componentDidMount () {
-    socket.on ("chat message", (msg) => {
-      if (msg.length > 0) {
-        this.setState ((state) => ({
-          messages: state.messages.concat ([ msg ])
-        }))
-      }
+    socket.on ("message", (msg) => {
+      this.setState ((state) => ({
+        messages: state.messages.concat ([ msg ])
+      }))
     })
   }
 
@@ -53,10 +50,28 @@ class InputForm extends React.Component {
 
   submitInput = (event) => {
     event.preventDefault ()
-    socket.emit ("chat message", this.state.value)
+    this.executeInput (this.state.value)
     this.setState ({
       value: ""
     })
+  }
+
+  executeInput = (value) => {
+    let words = value.split (" ") .filter (word => word.length > 0)
+    if (words.length > 0) {
+      if (words [0] .startsWith ("/")) {
+        console.log ({
+          command: words [0],
+          args: words.slice (1),
+        })
+        socket.emit ("command", {
+          command: words [0],
+          args: words.slice (1),
+        })
+      } else {
+        socket.emit ("message", value)
+      }
+    }
   }
 
   render () {
