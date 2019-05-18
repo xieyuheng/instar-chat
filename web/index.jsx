@@ -1,7 +1,11 @@
 import * as React from "react"
 import * as ReactDOM from "react-dom"
 import { useState } from "react"
+
+import nanoid from "nanoid"
+
 import io from "socket.io-client"
+
 import "./index.css"
 
 let socket = io ("http://localhost:3000/")
@@ -9,31 +13,7 @@ let socket = io ("http://localhost:3000/")
 class MessageBoard extends React.Component {
   constructor (props) {
     super (props)
-  }
 
-  render () {
-    return <ul id="messages">
-      {this.props.messages.map (msg => <li> {msg} </li>)}
-    </ul>
-  }
-}
-
-class InputBox extends React.Component {
-  constructor (props) {
-    super (props)
-  }
-
-  render () {
-    return <form action="" onSubmit={this.props.onSubmit}>
-      <input id="m" autoComplete="off" />
-      <button>Send</button>
-    </form>
-  }
-}
-
-class Root extends React.Component {
-  constructor (props) {
-    super (props)
     this.state = {
       messages: ["welcome ^-^/"]
     }
@@ -41,27 +21,62 @@ class Root extends React.Component {
 
   componentDidMount () {
     socket.on ("chat message", (msg) => {
-      this.setState (state => {
-        messages: state.messages.concat ([ msg ])
-      })
+      if (msg.length > 0) {
+        this.setState ((state) => ({
+          messages: state.messages.concat ([ msg ])
+        }))
+      }
     })
   }
 
-  componentWillUnmount () {
-    // TODO
+  render () {
+    let messageList = this.state.messages.map ((msg, index) => {
+      return <li key={index.toString ()}> {msg} </li>
+    })
+
+    return <ul id="messages">{messageList}</ul>
+  }
+}
+
+class InputForm extends React.Component {
+  constructor (props) {
+    super (props)
+
+    this.state = {
+      value: ""
+    }
   }
 
-  submitInput = (e) => {
-    e.preventDefault ()
-    console.log (e.target)
-    // socket.emit ('chat message', $('#m') .val ())
-    // $('#m') .val ('')
+  inputChange = (event) => {
+    this.setState ({
+      value: event.target.value
+    })
+  }
+
+  submitInput = (event) => {
+    event.preventDefault ()
+    socket.emit ("chat message", this.state.value)
+    this.setState ({
+      value: ""
+    })
   }
 
   render () {
+    return <form onSubmit={this.submitInput}>
+      <input type="text"
+             autoComplete="off"
+             value={this.state.value}
+             onChange={this.inputChange} />
+      <button>SEND</button>
+    </form>
+  }
+}
+
+class Root extends React.Component {
+  render () {
     return <>
-      <MessageBoard messages={this.state.messages}/>
-      <InputBox onSubmit={this.submitInput}/>
+      <MessageBoard />
+      <InputForm />
     </>
   }
 }

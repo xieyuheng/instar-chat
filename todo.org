@@ -1,12 +1,9 @@
-- learn API of socket.io
-  - how to send objects between frontend and backend ?
-- classes:
-  - `user_t`
-  - `group_t`
-- express -- auth example -- one time demo, no db
+- socket.io namespace and room -- for group_t
+- express -- auth example (no db)
+- class message_t
+- class user_t
+- class group_t
 - use redux
-- a hyperapp version -- instead of react
-  - is hyperapp really better
 * Homework
 - Broadcast a message to connected users when someone connects or disconnects.
 - Add support for nicknames.
