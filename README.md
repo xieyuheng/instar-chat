@@ -1,5 +1,6 @@
 # A simple chat app
 
+Aims:
 - IRC-like user experience
 - chat history
 
