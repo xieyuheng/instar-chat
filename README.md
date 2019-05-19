@@ -8,7 +8,7 @@ Prepare:
 - `npm install; npm run build`
 
 Server:
-- code at `/src` (nodejs, expressjs, typescript)
+- code at `/src` (nodejs, expressjs, socket.io, typescript)
 - `npm run server`
 
 Web client:
