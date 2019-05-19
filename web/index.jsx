@@ -56,10 +56,10 @@ class InputForm extends React.Component {
           args: words.slice (1),
         })
       } else {
-        if (this.props.groupname !== null) {
+        if (this.props.channelname !== null) {
           socket.emit ("message", {
             username: this.props.username,
-            groupname: this.props.groupname,
+            channelname: this.props.channelname,
             message: value,
           })
         }
@@ -79,28 +79,28 @@ class InputForm extends React.Component {
   }
 }
 
-class GroupBoard extends React.Component {
+class ChannelBoard extends React.Component {
   constructor (props) {
     super (props)
   }
 
   render () {
-    let groupButtons = Array.from (
+    let channelButtons = Array.from (
       this.props.text_map.keys ()
-    ) .map (groupname => {
-      return <p key={groupname}>
+    ) .map (channelname => {
+      return <p key={channelname}>
         <button
-          value={groupname}
+          value={channelname}
           onClick={this.props.onClick}>
-          {groupname}
+          {channelname}
         </button>
       </p>
     })
 
-    return <div id="group-board">
+    return <div id="channel-board">
       {this.props.username !== null &&
        <p>{this.props.username}</p>}
-      {groupButtons}
+      {channelButtons}
     </div>
   }
 }
@@ -112,17 +112,17 @@ class InstarChat extends React.Component {
     this.state = {
       username: null,
       main_text: "",
-      current_groupname: null,
+      current_channelname: null,
       text_map: new Map (),
     }
   }
 
   componentDidMount () {
     socket.on ("login", (the) => {
-      for (let groupname of the.groupname_array) {
+      for (let channelname of the.channelname_array) {
         // TODO
-        // use an init `appendTextTo` tp support group history
-        this.appendTextTo ("", groupname)
+        // use an init `appendTextTo` tp support channel history
+        this.appendTextTo ("", channelname)
       }
       this.setState ({
         username: the.username,
@@ -133,62 +133,62 @@ class InstarChat extends React.Component {
       this.appendText ("[info] " + info + "\n")
     })
 
-    socket.on ("join", (groupname) => {
-      this.joinGroup (groupname)
+    socket.on ("join", (channelname) => {
+      this.joinChannel (channelname)
     })
 
-    socket.on ("leave", (groupname) => {
-      this.appendTextTo ("[leave]", groupname)
-      this.state.text_map.delete (groupname)
+    socket.on ("leave", (channelname) => {
+      this.appendTextTo ("[leave]", channelname)
+      this.state.text_map.delete (channelname)
       this.setState ((state) => ({
         text_map: state.text_map
       }))
     })
 
     socket.on ("message", (the) => {
-      let text = `${the.username}: ${the.message}\n`
-      this.appendTextTo (text, the.groupname)
+      let text = `<${the.username}> ${the.message}\n`
+      this.appendTextTo (text, the.channelname)
     })
   }
 
   appendText = (text) => {
-    if (this.state.current_groupname === null) {
+    if (this.state.current_channelname === null) {
       this.setState ((state) => ({
         main_text: state.main_text + text
       }))
     } else {
-      this.appendTextTo (text, this.state.current_groupname)
+      this.appendTextTo (text, this.state.current_channelname)
     }
   }
 
-  appendTextTo = (text, groupname) => {
-    let old_text = this.state.text_map.get (groupname)
+  appendTextTo = (text, channelname) => {
+    let old_text = this.state.text_map.get (channelname)
     this.setState ((state) => ({
       text_map: state.text_map.set (
-        groupname,
+        channelname,
         old_text === undefined ? text : old_text + text,
       )
     }))
   }
 
   getText = () => {
-    if (this.state.current_groupname === null) {
+    if (this.state.current_channelname === null) {
       return this.state.main_text
     } else {
       return this.state.text_map.get (
-        this.state.current_groupname
+        this.state.current_channelname
       )
     }
   }
 
-  joinGroup = (groupname) => {
+  joinChannel = (channelname) => {
     this.setState ({
-      current_groupname: groupname
+      current_channelname: channelname
     })
     // NOTE
     // the following empty appending
     //   is for refreshing `MessageBoard` after `/join`
-    this.appendTextTo ("", groupname)
+    this.appendTextTo ("", channelname)
   }
 
   render () {
@@ -198,17 +198,17 @@ class InstarChat extends React.Component {
     }
     return <div id="instar-chat"
                 className={className}>
-      <GroupBoard
+      <ChannelBoard
         username={this.state.username}
         text_map={this.state.text_map}
-        groupname={this.state.current_groupname}
-        onClick={(event) => this.joinGroup (event.target.value)}
+        channelname={this.state.current_channelname}
+        onClick={(event) => this.joinChannel (event.target.value)}
       />
       <MessageBoard
         text={this.getText ()} />
       <InputForm
         username={this.state.username}
-        groupname={this.state.current_groupname} />
+        channelname={this.state.current_channelname} />
     </div>
   }
 }

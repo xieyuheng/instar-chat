@@ -29,12 +29,12 @@ button {
   transition: margin-left .5s ease .2s;
 }
 
-#group-board {
+#channel-board {
   width: 0%;
   transition: width .5s ease .2s;
 }
 
-#group-board {
+#channel-board {
   left: 0;
   top: 0;
   bottom: 0;
@@ -44,7 +44,7 @@ button {
   text-align: center;
 }
 
-.login #group-board {
+.login #channel-board {
   width: 18%;
   transition: width .5s ease .2s;
 }

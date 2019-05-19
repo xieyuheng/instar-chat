@@ -2,13 +2,12 @@ import express from "express"
 import { Request, Response } from "express"
 import http from "http"
 import sio from "socket.io"
-import nanoid from "nanoid"
 
 const PORT = 3000
 
 let user_map: Map <string, {
   password: string,
-  groupname_set: Set <string>,
+  channelname_set: Set <string>,
 }> = new Map ()
 
 let socket_map: Map <string, string> = new Map ()
@@ -27,8 +26,8 @@ io.on ("connection", (socket) => {
   socket.emit ("info", "commands:")
   socket.emit ("info", "  /register <username> <password>")
   socket.emit ("info", "  /login <username> <password>")
-  socket.emit ("info", "  /join <groupname>")
-  socket.emit ("info", "  /leave <groupname>")
+  socket.emit ("info", "  /join <channelname>")
+  socket.emit ("info", "  /leave <channelname>")
   socket.emit ("info", "  /info")
 
   socket.on ("command", (the => executeCommand (socket, the)))
@@ -92,7 +91,7 @@ command_map.set ("/login", (socket, args) => {
 command_map.set ("/join", (socket, args) => {
   if (args.length !== 1) {
     socket.emit ("info", "command /join takes 1 argument")
-    socket.emit ("info", "  /join <groupname>")
+    socket.emit ("info", "  /join <channelname>")
   } else {
     join (socket, args [0])
   }
@@ -101,7 +100,7 @@ command_map.set ("/join", (socket, args) => {
 command_map.set ("/leave", (socket, args) => {
   if (args.length !== 1) {
     socket.emit ("info", "command /leave takes 1 argument")
-    socket.emit ("info", "  /leave <groupname>")
+    socket.emit ("info", "  /leave <channelname>")
   } else {
     leave (socket, args [0])
   }
@@ -124,7 +123,7 @@ function register (
     socket.emit ("info", `username: ${username} is used. please try another one`)
   } else {
     user_map.set (username, {
-      password, groupname_set: new Set (),
+      password, channelname_set: new Set (),
     })
     socket.emit ("info", `successful registration, username: ${username}`)
     login (socket, username, password)
@@ -141,16 +140,16 @@ function login (
     if (password === the.password) {
       socket_map.set (socket.id, username)
       // NOTE
-      // `the.groupname_set` is converted to `Array`
+      // `the.channelname_set` is converted to `Array`
       // because socket.io can not serialize `Set`
-      let groupname_array = Array.from (the.groupname_set)
-      socket.emit ("login", { username, groupname_array })
+      let channelname_array = Array.from (the.channelname_set)
+      socket.emit ("login", { username, channelname_array })
       socket.emit ("info", "successful login")
-      for (let groupname of groupname_array) {
-        join (socket, groupname)
+      for (let channelname of channelname_array) {
+        join (socket, channelname)
       }
       socket.on ("message", the => {
-        io.to (the.groupname) .emit ("message", the)
+        io.to (the.channelname) .emit ("message", the)
       })
     } else {
       socket.emit ("info", "login fail")
@@ -164,7 +163,7 @@ function login (
 
 function join (
   socket: sio.Socket,
-  groupname: string,
+  channelname: string,
 ) {
   let username = socket_map.get (socket.id)
   if (username === undefined) {
@@ -174,18 +173,18 @@ function join (
     let the = user_map.get (username)
     if (the === undefined) {
       socket.emit ("info", "join fail")
-      socket.emit ("info", "  fail to get groupname_set")
+      socket.emit ("info", "  fail to get channelname_set")
     } else {
-      the.groupname_set.add (groupname)
-      socket.join (groupname)
-      socket.emit ("join", groupname)
+      the.channelname_set.add (channelname)
+      socket.join (channelname)
+      socket.emit ("join", channelname)
     }
   }
 }
 
 function leave (
   socket: sio.Socket,
-  groupname: string,
+  channelname: string,
 ) {
   let username = socket_map.get (socket.id)
   if (username === undefined) {
@@ -195,11 +194,11 @@ function leave (
     let the = user_map.get (username)
     if (the === undefined) {
       socket.emit ("info", "leave fail")
-      socket.emit ("info", "  fail to get groupname_set")
+      socket.emit ("info", "  fail to get channelname_set")
     } else {
-      the.groupname_set.delete (groupname)
-      socket.leave (groupname)
-      socket.emit ("leave", groupname)
+      the.channelname_set.delete (channelname)
+      socket.leave (channelname)
+      socket.emit ("leave", channelname)
     }
   }
 }
