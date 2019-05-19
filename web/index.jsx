@@ -138,7 +138,7 @@ class InstarChat extends React.Component {
     })
 
     socket.on ("leave", (channelname) => {
-      this.appendTextTo ("[leave]", channelname)
+      this.appendTextTo (`[left ${channelname}]`, channelname)
       this.state.text_map.delete (channelname)
       this.setState ((state) => ({
         text_map: state.text_map
