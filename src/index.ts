@@ -166,26 +166,42 @@ function join (
   socket: sio.Socket,
   groupname: string,
 ) {
-  socket.join (groupname)
-  let username = socket_map.get (socket.id) as string
-  let the = user_map.get (username) as {
-    groupname_set: Set <string>
+  let username = socket_map.get (socket.id)
+  if (username === undefined) {
+    socket.emit ("info", "join fail")
+    socket.emit ("info", "  fail to get username")
+  } else {
+    let the = user_map.get (username)
+    if (the === undefined) {
+      socket.emit ("info", "join fail")
+      socket.emit ("info", "  fail to get groupname_set")
+    } else {
+      the.groupname_set.add (groupname)
+      socket.join (groupname)
+      socket.emit ("join", groupname)
+    }
   }
-  the.groupname_set.add (groupname)
-  socket.emit ("join", groupname)
 }
 
 function leave (
   socket: sio.Socket,
   groupname: string,
 ) {
-  socket.leave (groupname)
-  let username = socket_map.get (socket.id) as string
-  let the = user_map.get (username) as {
-    groupname_set: Set <string>
+  let username = socket_map.get (socket.id)
+  if (username === undefined) {
+    socket.emit ("info", "leave fail")
+    socket.emit ("info", "  fail to get username")
+  } else {
+    let the = user_map.get (username)
+    if (the === undefined) {
+      socket.emit ("info", "leave fail")
+      socket.emit ("info", "  fail to get groupname_set")
+    } else {
+      the.groupname_set.delete (groupname)
+      socket.leave (groupname)
+      socket.emit ("leave", groupname)
+    }
   }
-  the.groupname_set.delete (groupname)
-  socket.emit ("leave", groupname)
 }
 
 function info (

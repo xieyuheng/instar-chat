@@ -1,21 +1,19 @@
-# A simple chat app
+# A simple relay chat app
 
-Aims:
-- IRC-like user experience
-- chat history
+IRC-like architecture:
+- relay only -- not central database for chat history
+- chat history can be achieved by third part channel-log bots
 
-## Run
+Prepare:
+- `npm install; npm run build`
 
-- prepare
-  - `npm install; npm run build`
+Server:
+- code at `/src` (nodejs, expressjs, typescript)
+- `npm run server`
 
-- backend
-  - code at `/src`
-  - `npm run server`
-
-- frontend
-  - code at `/web`
-  - `npm run web`
+Web client:
+- code at `/web` (react, jsx, parcel-bundler)
+- `npm run web`
 
 ## Contributing
 
