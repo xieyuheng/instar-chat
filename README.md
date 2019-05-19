@@ -2,7 +2,7 @@
 
 IRC-like architecture:
 - relay only -- not central database for chat history
-- chat history can be achieved by third part channel-log bots
+- chat history can be achieved by independent channel-log bots
 
 Prepare:
 - `npm install; npm run build`
