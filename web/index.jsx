@@ -121,7 +121,7 @@ class InstarChat extends React.Component {
     socket.on ("login", (the) => {
       for (let channelname of the.channelname_array) {
         // TODO
-        // use an init `appendTextTo` tp support channel history
+        // use an init `appendTextTo` to support channel history
         this.appendTextTo ("", channelname)
       }
       this.setState ({
