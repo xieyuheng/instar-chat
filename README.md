@@ -4,6 +4,8 @@ IRC-like architecture:
 - relay only -- not central database for chat history
 - chat history can be achieved by independent channel-log bots
 
+![instar-chat-1](https://github.com/xieyuheng/image-link/raw/master/instar-chat/instar-chat-1.png)
+
 ## Community
 
 ![niconiconi](https://github.com/xieyuheng/image-link/raw/master/niconiconi/niconiconi.gif)
