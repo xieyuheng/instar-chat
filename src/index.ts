@@ -1,9 +1,10 @@
+import process from "process"
 import express from "express"
 import { Request, Response } from "express"
 import http from "http"
 import sio from "socket.io"
 
-const PORT = 3000
+let PORT = process.env.PORT || 3000
 
 let user_map: Map <string, {
   password: string,
@@ -14,7 +15,10 @@ let socket_map: Map <string, string> = new Map ()
 
 let app = express ()
 let server = http.createServer (app)
+
 let io = sio (server)
+
+io.origins ("*:*")
 
 io.on ("connection", (socket) => {
   console.log (
@@ -41,6 +45,13 @@ io.on ("connection", (socket) => {
   })
 })
 
+server.listen (PORT, () => {
+  console.log (
+    `[instar-chat] ` +
+      `listen on port ${PORT}`
+  )
+})
+
 type command_t = (
   socket: sio.Socket,
   args: Array <string>,
@@ -62,13 +73,6 @@ function executeCommand (
     socket.emit ("info", `unknown command ${the.command}`)
   }
 }
-
-server.listen (PORT, () => {
-  console.log (
-    `[instar-chat] ` +
-      `listen on port 3000`
-  )
-})
 
 command_map.set ("/register", (socket, args) => {
   if (args.length !== 2) {

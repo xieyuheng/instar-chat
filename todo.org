@@ -1,5 +1,6 @@
+- deploy to now.sh
+
 - use redux
-- deploy to new.sh
 - [maybe] use crypto to avoid storing naked passwords
 - [maybe] use session
 - [maybe] use db
