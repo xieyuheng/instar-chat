@@ -8,8 +8,9 @@
     "watch": "tsc --watch",
     "server": "node lib/index.js",
     "deploy-heroku": "git push heroku master",
-    "deploy-now": "cp web/now.json dist; now deploy dist --target production",
-    "deploy-surge": "surge dist instar-chat.surge.sh",
+    "web-build": "parcel build web/index.html",
+    "deploy-now": "npm run web-build; cp web/now.json dist; now deploy dist --target production",
+    "deploy-surge": "npm run web-build; surge dist instar-chat.surge.sh",
     "web": "parcel web/index.html",
     "start": "node lib/index.js"
   },
