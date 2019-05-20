@@ -33,9 +33,9 @@ button {
   font-size: 1em;
   border: 0px;
   border-left: 1px solid;
-  width: 97%;
+  width: 100%;
   min-height: 500px;
-  max-height: 550px;
+  height: 100%;
   outline: none;
   resize: none;
   overflow: auto;
