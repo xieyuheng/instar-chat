@@ -4,6 +4,16 @@ IRC-like architecture:
 - relay only -- not central database for chat history
 - chat history can be achieved by independent channel-log bots
 
+## Community
+
+- We enforce C4 as collaboration protocol -- [The C4 RFC](https://rfc.zeromq.org/spec:42/C4)
+- [Style Guide](STYLE-GUIDE.md) -- observe the style of existing code and respect it
+- [Code of Conduct](CODE-OF-CONDUCT.md)
+- A demo instar-chat sever at https://instar-chat.herokuapp.com
+- A demo instar-chat clint at https://instar-chat.cicada-lang.now.sh
+
+## Contributing
+
 Prepare:
 - `npm install; npm run build`
 
@@ -14,12 +24,6 @@ Server:
 Web client:
 - code at `/web` (react, jsx, parcel-bundler)
 - `npm run web`
-
-## Contributing
-
-- We enforce C4 as collaboration protocol -- [The C4 RFC](https://rfc.zeromq.org/spec:42/C4)
-- [Style Guide](STYLE-GUIDE.md) -- observe the style of existing code and respect it
-- [Code of Conduct](CODE-OF-CONDUCT.md)
 
 ## License
 
