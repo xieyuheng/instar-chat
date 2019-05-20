@@ -1,4 +1,4 @@
+* maybe
 - use redux
-- [maybe] use crypto to avoid storing naked passwords
-- [maybe] use session
-- [maybe] use db
+- use session
+- use db
