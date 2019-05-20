@@ -129,9 +129,11 @@ class InstarChat extends React.Component {
   componentDidMount () {
     socket.on ("login", (the) => {
       for (let channelname of the.channelname_array) {
-        // NOTE we can use an init `appendTextTo`
-        //   to support channel history
-        // history can be pulled from independent API
+        /** NOTE
+         * We can use an init `appendTextTo`
+         *   to support channel history.
+         * History can be pulled from independent API.
+         */
         this.appendTextTo ("", channelname)
       }
       this.setState ({
@@ -195,8 +197,10 @@ class InstarChat extends React.Component {
     this.setState ({
       current_channelname: channelname
     })
-    // NOTE the following empty appending
-    //   is for refreshing `MessageBoard` after `/join`
+    /** NOTE
+     * The following empty appending
+     *   is for refreshing `MessageBoard` after `/join`.
+     */
     this.appendTextTo ("", channelname)
   }
 

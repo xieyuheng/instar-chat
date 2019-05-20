@@ -139,9 +139,10 @@ function login (
   if (the !== undefined) {
     if (password === the.password) {
       socket_map.set (socket.id, username)
-      // NOTE
-      // `the.channelname_set` is converted to `Array`
-      // because socket.io can not serialize `Set`
+      /** NOTE
+       * `the.channelname_set` is converted to `Array`
+       *   because socket.io can not serialize `Set`
+       */
       let channelname_array = Array.from (the.channelname_set)
       socket.emit ("login", { username, channelname_array })
       socket.emit ("info", "successful login")
