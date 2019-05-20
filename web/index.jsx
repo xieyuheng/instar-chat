@@ -5,7 +5,8 @@ import io from "socket.io-client"
 
 import "./index.css"
 
-let socket = io ("http://localhost:3000/")
+// let socket = io ("http://localhost:3000/")
+let socket = io ("https://instar-chat.herokuapp.com/")
 
 class MessageBoard extends React.Component {
   constructor (props) {

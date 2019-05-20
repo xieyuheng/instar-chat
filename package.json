@@ -7,8 +7,10 @@
     "build": "tsc",
     "watch": "tsc --watch",
     "server": "node lib/index.js",
-    "start": "node lib/index.js",
-    "web": "parcel web/index.html"
+    "deploy-now": "cp web/now.json dist; now deploy dist --target production",
+    "deploy-surge": "surge dist instar-chat.surge.sh",
+    "web": "parcel web/index.html",
+    "start": "node lib/index.js"
   },
   "devDependencies": {
     "@babel/core": "^7.4.4",
