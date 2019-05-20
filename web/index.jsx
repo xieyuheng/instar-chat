@@ -10,11 +10,18 @@ let socket = io ("http://localhost:3000/")
 class MessageBoard extends React.Component {
   constructor (props) {
     super (props)
+    this.textarea = React.createRef ()
+  }
+
+  componentDidUpdate () {
+    let textarea = this.textarea.current
+    textarea.scrollTop = textarea.scrollHeight
   }
 
   render () {
     return <>
       <textarea
+        ref={this.textarea}
         id="message-board"
         spellCheck="false"
         readOnly={true}
