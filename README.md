@@ -15,7 +15,7 @@ IRC-like architecture:
 - [Code of Conduct](CODE-OF-CONDUCT.md)
 - A demo instar-chat sever at https://instar-chat.herokuapp.com
 - A demo instar-chat clint at https://instar-chat.cicada-lang.now.sh
-  - I am sometimes on channel `cicada` and `archlinux-cn`, my username is `xyh` or `xieyuheng`
+  - I am sometimes on channel `cicada`, my username is `xieyuheng`
 
 ## Contributing
 
