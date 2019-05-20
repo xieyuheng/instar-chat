@@ -1,6 +1,5 @@
 - use redux
 - deploy to new.sh
-- [improve css] "channel-board"
 - [maybe] use crypto to avoid storing naked passwords
 - [maybe] use session
 - [maybe] use db

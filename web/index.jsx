@@ -99,14 +99,16 @@ class ChannelBoard extends React.Component {
         <button
           value={channelname}
           onClick={this.props.onClick}>
-          {channelname}
+          {this.props.channelname === channelname
+          ? <b>{channelname}</b>
+          : channelname}
         </button>
       </p>
     })
 
     return <div id="channel-board">
       {this.props.username !== null &&
-       <p>{this.props.username}</p>}
+       <p id="usericon">{"<" + this.props.username + ">"}</p>}
       {channelButtons}
     </div>
   }
@@ -127,8 +129,9 @@ class InstarChat extends React.Component {
   componentDidMount () {
     socket.on ("login", (the) => {
       for (let channelname of the.channelname_array) {
-        // TODO
-        // use an init `appendTextTo` to support channel history
+        // NOTE we can use an init `appendTextTo`
+        //   to support channel history
+        // history can be pulled from independent API
         this.appendTextTo ("", channelname)
       }
       this.setState ({
@@ -192,8 +195,7 @@ class InstarChat extends React.Component {
     this.setState ({
       current_channelname: channelname
     })
-    // NOTE
-    // the following empty appending
+    // NOTE the following empty appending
     //   is for refreshing `MessageBoard` after `/join`
     this.appendTextTo ("", channelname)
   }
@@ -203,20 +205,24 @@ class InstarChat extends React.Component {
     if (this.state.username !== null) {
       className += " login";
     }
-    return <div id="instar-chat"
-                className={className}>
+    return <span id="instar-chat"
+                 className={className}>
       <ChannelBoard
         username={this.state.username}
         text_map={this.state.text_map}
         channelname={this.state.current_channelname}
-        onClick={(event) => this.joinChannel (event.target.value)}
+        onClick={(event) => {
+          if (event.target.value) {
+            this.joinChannel (event.target.value)
+          }
+        }}
       />
       <MessageBoard
         text={this.getText ()} />
       <InputForm
         username={this.state.username}
         channelname={this.state.current_channelname} />
-    </div>
+    </span>
   }
 }
 
