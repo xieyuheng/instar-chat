@@ -1,4 +1,4 @@
-* maybe
+- signin with github
 - use redux
 - use session
 - use db
