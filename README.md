@@ -1,6 +1,4 @@
-# instar-chat a.k.a. instar2
-
-A simple relay chat app
+# instar2 (a.k.a. instar-chat) -- A simple relay chat app
 
 IRC-like architecture:
 - relay only -- not central database for chat history
